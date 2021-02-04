@@ -1,1 +1,1 @@
-# IsItShiny-PokemonGo
+# ShinyOrNah-PokemonGo
