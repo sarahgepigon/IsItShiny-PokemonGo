@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.options import Options
 
 def webscrape():
 
-	path = '/Users/sarah/Drivers/chromedriver'
+	path = os.environ['PATH_CHROMEDRIVER']
 
 	chrome_options = Options()  
 	chrome_options.add_argument("--headless") #headless browsing
@@ -32,6 +32,9 @@ def webscrape():
 	# Beautifulsoup loop through HTML https://stackoverflow.com/questions/38519975/beautifulsoup-loop-through-html
 
 	td_tags = results.find_all('td')
+
+	list_pokemon_and_shiny_status = []
+
 	for td_tag in td_tags:
 	
 		#"Once we’ve isolated the tag, we can use the get_text method to extract all of the text inside the tag" dataquest.io/blog/web-scraping-tutorial-python/
@@ -39,7 +42,22 @@ def webscrape():
 		#The strip() method returns a copy of the string with both leading and trailing characters removed (based on the string argument passed).
 		#e.g. empty spaces
 		#https://towardsdatascience.com/top-5-beautiful-soup-functions-7bfe5a693482#:~:text=One%20of%20them%20is%20Beautiful,order%20to%20get%20data%20easily.&text=The%20basic%20process%20goes%20something,it%20any%20way%20you%20want.
-		print(td_tag.get_text().strip())
+		list_pokemon_and_shiny_status.append(td_tag.get_text().strip())
+
+
+	dict_pokemon_shinystatus = {}
+
+	#slice list for pokemon names https://www.xspdf.com/resolution/52771228.html
+	pokemon_list = list_pokemon_and_shiny_status[1::3]
+
+	#slice list for shiny status
+	shiny_status = list_pokemon_and_shiny_status[2::3]
+
+	## Merge the two lists to create a dictionary
+	#https://thispointer.com/python-6-different-ways-to-create-dictionaries/
+	dict_pokemon_shinystatus = dict(zip(pokemon_list, shiny_status))
+
+	print(dict_pokemon_shinystatus)
 
 
 def getPokemonList():
