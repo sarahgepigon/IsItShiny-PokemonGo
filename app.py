@@ -60,6 +60,21 @@ def webscrape():
 	print(dict_pokemon_shinystatus)
 
 
+	with open('shiny_pokemon.txt', 'w') as shiny_pokemon_file:
+	  
+	    for key, value in dict_pokemon_shinystatus.items():
+	        if value == 'Yes':
+	        	shiny_pokemon_file.write(f"{key}\n")
+
+
+		#read as list
+	with open('shiny_pokemon.txt', 'r') as shiny_pokemon_file:
+
+		lines = shiny_pokemon_file.readlines()
+
+		print(f"lines are: {lines}")
+
+
 def getPokemonList():
 
 
