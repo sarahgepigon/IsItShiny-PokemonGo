@@ -57,22 +57,26 @@ def webscrape():
 	#https://thispointer.com/python-6-different-ways-to-create-dictionaries/
 	dict_pokemon_shinystatus = dict(zip(pokemon_list, shiny_status))
 
-	print(dict_pokemon_shinystatus)
+	list_shinies_newer = [key for key,value \
+	in dict_pokemon_shinystatus.items() if value == 'Yes'] 
 
 
-	with open('shiny_pokemon.txt', 'w') as shiny_pokemon_file:
-	  
-	    for key, value in dict_pokemon_shinystatus.items():
-	        if value == 'Yes':
-	        	shiny_pokemon_file.write(f"{key}\n")
+	with open('shiny_pokemon.txt', 'a+') as shiny_pokemon_file:
+		shiny_pokemon_file.seek(0)
 
-
-		#read as list
-	with open('shiny_pokemon.txt', 'r') as shiny_pokemon_file:
-
+		#read WHOLE file to see what's in it, first. first time, should be empty list
 		lines = shiny_pokemon_file.readlines()
 
-		print(f"lines are: {lines}")
+	   	#clean up \n's
+		list_stripped = [line.strip() for line in lines]
+		print(f"list_stripped:\n {list_stripped}")
+
+		for pokemon in list_shinies_newer:
+	   		if pokemon not in list_stripped: 
+
+	   			print(f"{pokemon} not in file currently!")
+	   			shiny_pokemon_file.write(f"{pokemon}\n")
+
 
 
 def getPokemonList():
