@@ -71,10 +71,29 @@ def webscrape():
 		list_stripped = [line.strip() for line in lines]
 		print(f"list_stripped:\n {list_stripped}")
 
+
 		for pokemon in list_shinies_newer:
 	   		if pokemon not in list_stripped: 
 
 	   			print(f"{pokemon} not in file currently!")
+
+
+	   			message = Mail(
+					from_email=email_from, 
+					to_emails=email_to,
+					subject='Test: PokemonGo Shinies new (via SendGrid)',
+					html_content=f"<strong>and easy to do anywhere, {pokemon} even with Python</strong>")
+				
+				try:
+					sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+					response = sg.send(message)
+					print(response.status_code)
+					print(response.body)
+					print(response.headers)
+				except Exception as e:
+					print(e)
+
+
 	   			shiny_pokemon_file.write(f"{pokemon}\n")
 
 
